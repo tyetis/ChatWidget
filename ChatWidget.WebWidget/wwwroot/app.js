@@ -9,7 +9,7 @@
         createAjaxService({ token, onMessage }) {
             return {
                 async sendMessage(message) {
-                    var response = await fetch("http://localhost:41516/chat/send", {
+                    var response = await fetch("https://localhost:44322/chat/send", {
                         method: "POST",
                         headers: {
                             'Content-Type': 'application/json',
@@ -29,7 +29,7 @@
         createSignalRService({ token, onConnected, onMessage, onError, onClose }) {
             var SignalRConnection = null;
             SignalRConnection = new signalR.HubConnectionBuilder()
-                .withUrl("http://localhost:41516" + "/chathub", {
+                .withUrl("https://localhost:44322" + "/chathub", {
                     accessTokenFactory: () => token
                 })
                 .withAutomaticReconnect([0, 1000, 5000, null])
@@ -63,15 +63,16 @@
                 time: "şimdi",
                 direction: "me"
             })
-            this.scrollToBottom()
 
-            await this.messageService.sendMessage({ text: message })
+            await this.messageService.sendMessage({
+                type: "UserTextMessage",
+                message: JSON.stringify({ Text: message })
+            })
             
-            this.scrollToBottom()
             this.typeMessage = "";
         },
         async authorize() {
-            var data = await fetch("http://localhost:41516/auth?botId=" + this.botId, {
+            var data = await fetch("https://localhost:44322/auth?botId=" + this.botId, {
                 method: "POST"
             }).then((response) => response.json())
             return data.token
@@ -98,6 +99,7 @@
                     direction: ""
                 })
             })
+            this.scrollToBottom()
         },
         async init(args) {
             this.botId = args.botId;

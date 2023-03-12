@@ -5,8 +5,9 @@ using System.Threading.Tasks;
 
 namespace ChatWidget.API.Agents
 {
-    public interface IAgent
+    public class AgentUserMessage
     {
-        List<AgentMessage> OnMessageFromUser(AgentUserMessage payload);
+        public string Type { get; set; }
+        public string Message { get; set; }
     }
 }

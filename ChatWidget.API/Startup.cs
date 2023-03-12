@@ -1,7 +1,6 @@
 using ChatWidget.API.Agents;
 using ChatWidget.API.Providers;
-using ChatWidget.API.Service;
-using ChatWidget.API.Socket;
+using ChatWidget.API.Channels.WebChat;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -14,6 +13,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using ChatWidget.API.Channels.Telegram;
+using ChatWidget.API.Channels.WebSocket;
+using ChatWidget.API.Agents.HumanAgent;
+using ChatWidget.API.Agents.MyChatBot;
 
 namespace ChatWidget.API
 {
@@ -36,7 +39,9 @@ namespace ChatWidget.API
             services.AddScoped<Config>();
             services.AddScoped<ChatBot>();
             services.AddScoped<ITokenProvider, TokenProvider>();
-            services.AddScoped<MessagingService>();
+            services.AddScoped<WebChatChannel>();
+            services.AddScoped<WebSocketChannel>();
+            services.AddScoped<TelegramChannel>();
             services.AddScoped<MyChatBotAgent>();
             services.AddScoped<HumanAgent>();
             services.AddSingleton<IUserIdProvider, CustomUserIdProvider>();

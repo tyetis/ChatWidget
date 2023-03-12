@@ -3,12 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace ChatWidget.API.Model
+namespace ChatWidget.API.Channels.WebChat
 {
-    public class AgentMessagePayload
+    public class WebChatUserMessage
     {
-        public int UserId { get; set; }
         public string Type { get; set; }
-        public object Message { get; set; }
+        public string Message { get; set; }
     }
 }

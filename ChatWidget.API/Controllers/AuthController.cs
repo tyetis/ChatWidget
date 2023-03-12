@@ -21,8 +21,8 @@ namespace ChatWidget.API.Controllers
         [HttpPost]
         public IActionResult Post(int botId)
         {
-            if (botId != 1) return Forbid();
-            var userId = 1;
+            if (botId != 1) return Forbid(); // check from database
+            var userId = 1; // generate from database
             var tokenString = TokenProvider.CreateToken(userId, botId);
             return Ok(new
             {

@@ -5,7 +5,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
-namespace ChatWidget.API.Socket
+namespace ChatWidget.API.Channels.WebSocket
 {
     public class CustomUserIdProvider : IUserIdProvider
     {

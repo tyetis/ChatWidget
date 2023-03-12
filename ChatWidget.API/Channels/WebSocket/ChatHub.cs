@@ -1,29 +1,28 @@
-﻿using ChatWidget.API.Model;
-using ChatWidget.API.Providers;
-using ChatWidget.API.Service;
+﻿using ChatWidget.API.Providers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.SignalR;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using ChatWidget.API.Channels.WebSocket;
 
-namespace ChatWidget.API.Socket
+namespace ChatWidget.API.Channels.WebSocket
 {
     [Authorize]
     public class ChatHub : Hub
     {
         ITokenProvider TokenProvider { get; set; }
-        MessagingService Messaging { get; set; }
+        WebSocketChannel Messaging { get; set; }
 
-        public ChatHub(MessagingService messaging, ITokenProvider tokenProvider)
+        public ChatHub(WebSocketChannel messaging, ITokenProvider tokenProvider)
         {
             TokenProvider = tokenProvider;
             Messaging = messaging;
         }
-        public void OnMessage(UserMessagePayload payload)
+        public void OnMessage(WebSocketUserMessage payload)
         {
-            Messaging.OnSignalMessageFromUser(payload);
+            Messaging.OnMessageFromUser(payload);
         }
 
         public override async Task OnConnectedAsync()
