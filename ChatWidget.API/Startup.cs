@@ -1,6 +1,6 @@
 using ChatWidget.API.Agents;
 using ChatWidget.API.Providers;
-using ChatWidget.API.Channels.WebChat;
+using ChatWidget.API.Channels.Http;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -42,7 +42,7 @@ namespace ChatWidget.API
             services.AddScoped<Config>();
             services.AddScoped<ChatBot>();
             services.AddScoped<ITokenProvider, TokenProvider>();
-            services.AddScoped<WebChatChannel>();
+            services.AddScoped<HttpChannel>();
             services.AddScoped<WebSocketChannel>();
             services.AddScoped<TelegramChannel>();
             services.AddScoped<MyChatBotAgent>();

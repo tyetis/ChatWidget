@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace ChatWidget.API.Channels.WebChat
+namespace ChatWidget.API.Channels.Http
 {
-    public class WebChatUserMessage
+    public class HttpUserMessage
     {
         public int UserId { get; set; }
         public int? BotId { get; set; } // if exists

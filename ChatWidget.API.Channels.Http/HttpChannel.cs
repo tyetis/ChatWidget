@@ -5,15 +5,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace ChatWidget.API.Channels.WebChat
+namespace ChatWidget.API.Channels.Http
 {
-    public class WebChatChannel: BaseChannel, IChannel
+    public class HttpChannel: BaseChannel, IChannel
     {
-        public WebChatChannel(IServiceProvider serviceProvider) : base(serviceProvider)
+        public HttpChannel(IServiceProvider serviceProvider) : base(serviceProvider)
         {
         }
 
-        public HttpResponse OnMessageFromUser(WebChatUserMessage payload)
+        public HttpResponse OnMessageFromUser(HttpUserMessage payload)
         {
             //Save message to database
             var agent = base.GetAgent("MyChatBot.MyChatBotAgent"); // from database

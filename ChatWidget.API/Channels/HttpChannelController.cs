@@ -1,6 +1,5 @@
 ﻿using ChatWidget.API.Providers;
-using ChatWidget.API.Channels.WebChat;
-using ChatWidget.Core.Message;
+using ChatWidget.API.Channels.Http;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -14,19 +13,19 @@ namespace ChatWidget.API.Controllers
     [ApiController]
     [Authorize]
     [Route("[controller]")]
-    public class WebChatController : ControllerBase
+    public class HttpChannelController : ControllerBase
     {
-        WebChatChannel Channel { get; set; }
+        HttpChannel Channel { get; set; }
         ITokenProvider TokenProvider { get; set; }
 
-        public WebChatController(WebChatChannel channel, ITokenProvider tokenProvider)
+        public HttpChannelController(HttpChannel channel, ITokenProvider tokenProvider)
         {
             Channel = channel;
             TokenProvider = tokenProvider;
         }
 
         [HttpPost("send")]
-        public HttpResponse Send(WebChatUserMessage message)
+        public HttpResponse Send(HttpUserMessage message)
         {
             message.UserId = TokenProvider.UserId.Value;
             message.BotId = TokenProvider.BotId;
