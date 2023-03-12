@@ -1,0 +1,19 @@
+{
+  "Type": "ChoiceMessage",
+  "Data": {
+    "Choices": [
+      {
+        "Text": "Göz Muayesi",
+        "Value": "göz"
+      },
+      {
+        "Text": "Dahiliye",
+        "Value": "dahiliye"
+      },
+      {
+        "Text": "Psikiyatri",
+        "Value": "psikiyatri"
+      }
+    ]
+  }
+}

@@ -1,0 +1,100 @@
+{
+  "Id": "MainFlow",
+  "StartNode": "Node1",
+  "Nodes": [
+    {
+      "Id": "Node1",
+      "Name": "selamver",
+      "WaitForAnswer": true,
+      "OnEnterActions": [
+        {
+          "ActionName": "SendTextAction",
+          "Parameters": { "text": "Selam nasıl yardımcı olabilirim ?" }
+        },
+        {
+          "ActionName": "CallApiAction",
+          "Parameters": {
+            "Url": "https://my-json-server.typicode.com/typicode/demo/posts",
+            "Method": "Get",
+            "Parameters": "",
+            "ResultTempName": "ApiResult"
+          }
+        },
+        {
+          "ActionName": "SendTextAction",
+          "Parameters": { "text": "{{Temp[\"ApiResult\"]}}" }
+        }
+      ],
+      "OnReceiveActions": [],
+      "NextConditions": [
+        {
+          "Condition": "Session.Intent == \"buyTicket\"",
+          "NodeId": "NodeBuyTicket"
+        },
+        {
+          "Condition": "Session.Intent == \"buyReservation\"",
+          "NodeId": "NodeBuyReservation"
+        },
+        {
+          "Condition": "Session.Intent == \"examined\"",
+          "NodeId": "NodeExamined"
+        },
+        {
+          "Condition": "true",
+          "NodeId": "Node1"
+        }
+      ]
+    },
+    {
+      "Id": "NodeBuyTicket",
+      "Name": "",
+      "OnEnterActions": [
+        {
+          "ActionName": "SendTextAction",
+          "Parameters": { "text": "Ticket satın almak istiyorsunuz" }
+        }
+      ],
+      "OnReceiveActions": [],
+      "NextConditions": [
+        {
+          "Condition": "true",
+          "NodeId": "Node1"
+        }
+      ]
+    },
+    {
+      "Id": "NodeBuyReservation",
+      "Name": "",
+      "OnEnterActions": [
+        {
+          "ActionName": "SendTextAction",
+          "Parameters": { "text": "Rezervasyon satın almak istiyorsunuz" }
+        }
+      ],
+      "OnReceiveActions": [],
+      "NextConditions": [
+        {
+          "Condition": "true",
+          "NodeId": "Node1"
+        }
+      ]
+    },
+    {
+      "Id": "NodeExamined",
+      "Name": "",
+      "OnEnterActions": [
+        {
+          "ActionName": "SendTextAction",
+          "Parameters": { "text": "muayene olmak istiyorsunuz" }
+        }
+      ],
+      "OnReceiveActions": [],
+      "NextConditions": [
+        {
+          "Condition": "true",
+          "NodeId": "Node1"
+        }
+      ]
+    }
+  ]
+}

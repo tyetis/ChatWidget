@@ -1,0 +1,24 @@
+{
+  "Id": "MainFlow",
+  "StartNode": "Node1",
+  "Nodes": [
+    {
+      "Id": "Node1",
+      "Name": "selamver",
+      "WaitForAnswer": true,
+      "OnEnterActions": [
+        {
+          "ActionName": "SendTextAction",
+          "Parameters": { "text": "Hoþgeldiniz" }
+        }
+      ],
+      "OnReceiveActions": [
+        {
+          "ActionName": "SendTextAction",
+          "Parameters": { "text": "Intent: {{ Session.Intent }} City: {{ Slots[\"city\"] }} Date: {{ Slots[\"date\"] }}" }
+        }
+      ],
+      "NextConditions": []
+    }
+  ]
+}

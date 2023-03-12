@@ -1,0 +1,177 @@
+﻿* {
+    outline:none;
+/*    box-sizing: border-box;
+*/}
+
+.widget {
+    display: flex;
+    flex-direction: column;
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+    border: 1px solid #6d75ff;
+    font-family: sans-serif;
+    cursor: default;
+    position: absolute;
+    width: 350px;
+    height: 500px;
+    right: 50px;
+    bottom: 120px;
+    animation: fade_in_show 0.2s;
+    box-shadow: 0px 0px 10px #d6d6d6;
+}
+
+.widget-header {
+    display: flex;
+    background: #6d75ff;
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+    line-height: 40px;
+    color: #fff;
+    box-shadow: 0px 3px 5px #c8c6c6;
+    z-index: 9;
+}
+
+.widget-icon {
+    flex:1;
+}
+
+.widget-icon img {
+    width: 50px;
+    margin-top: -15px;
+    margin-left: 15px;
+    border-radius: 50%;
+}
+
+.widget-title {
+    flex:1;
+}
+
+.widget-tools {
+    border-top-right-radius: 15px;
+    overflow:hidden;
+}
+
+.widget-tool-btn {
+    display: inline-block;
+    width: 40px;
+    text-align: center;
+    cursor:pointer;
+}
+
+    .widget-tool-btn:hover {
+        background: #5d65ef;
+    }
+
+.widget-tool-btn i {
+    line-height:inherit;
+}
+
+.widget-messages {
+    flex:1;
+    display:flex;
+    flex-direction:column;
+    padding:10px;
+    overflow:auto;
+}
+
+.widget-message {
+    display: flex;
+    margin: 5px;
+    flex-direction: column;
+    align-self: flex-start;
+}
+
+    .widget-message .bubble {
+        background: #f7f7f7;
+        padding: 6px 15px;
+        border-radius: 20px;
+        font-size: 14px;
+        line-height: 140%;
+    }
+
+.widget-message.me {
+    align-self: flex-end;
+}
+
+    .widget-message.me .bubble {
+        background: #2196f3;
+        color: #fff;
+    }
+
+    .widget-message .time {
+        font-size: 12px;
+        color: rgba(0, 0, 0, 0.4);
+        padding: 5px 0 0 10px;
+    }
+
+    .widget-message.me .time {
+        align-self: flex-end;
+        padding-right: 5px;
+    }
+
+.widget-input {
+    border-top: 1px solid #ddd;
+    display:flex;
+}
+
+.widget-textinput {
+    flex:1;
+    height:40px;
+    border:none;
+    padding:15px;
+}
+
+.widget-sendbtn {
+    border: none;
+    width: 70px;
+    cursor: pointer;
+    background: #6d75ff;
+    color: #fff;
+}
+
+.widget-popupbtn {
+    width: 60px;
+    height: 60px;
+    background: #6d75ff;
+    border-radius: 50%;
+    text-align: center;
+    color: #fff;
+    cursor: pointer;
+    box-shadow: 0px 0px 20px #b8b8b8;
+    position:absolute;
+    right:40px;
+    bottom:40px;
+    font-size:25px;
+}
+    .widget-popupbtn:hover {
+        background: #4e57fd;
+    }
+
+.widget-popupbtn i {
+    margin-top:17px;
+}
+
+.widget-welcome {
+    background: #66bb6a;
+    color: #fff;
+    width: 300px;
+    border-radius: 10px;
+    position: absolute;
+    right: 100px;
+    bottom: 100px;
+    padding: 10px;
+    font-family: sans-serif;
+    display: flex;
+}
+
+@keyframes fade_in_show {
+    0% {
+        opacity: 0;
+        transform: scale(0)
+    }
+
+    100% {
+        opacity: 1;
+        transform: scale(1)
+    }
+}

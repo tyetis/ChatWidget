@@ -1,0 +1,48 @@
+﻿@page
+@model WidgetModel
+@{
+}
+<div class="widget" v-show="showWidget">
+    <div class="widget-header">
+        <div class="widget-icon"><img src="https://media.istockphoto.com/vectors/chat-bot-robot-avatar-in-circle-round-shape-isolated-on-white-stock-vector-id1250000899?k=20&m=1250000899&s=170667a&w=0&h=PmKAjrRbSAwobkDCOh55X4GeMXIvLHAHKOIlFc41D7k=" /></div>
+        <span class="widget-title">ChatBot</span>
+        <div class="widget-tools">
+            <div class="widget-tool-btn" @@click="showWidget = false"><i class="fa fa-minus"></i></div>
+            <div class="widget-tool-btn" @@click="showWidget = false"><i class="fa fa-times"></i></div>
+        </div>
+    </div>
+    <div class="widget-messages">
+        <div class="widget-message" :class="message.direction" v-for="message in messages">
+            <div v-if="message.type == 'TextMessage'">
+                <div class="bubble">
+                    {{message.text}}
+                </div>
+                <div class="time">{{message.time}}</div>
+            </div>
+            <div v-else-if="message.type == 'ChoiceMessage'">
+            </div>
+        </div>
+    </div>
+    <div class="widget-input">
+        <input type="text" class="widget-textinput" placeholder="Type..." v-model="typeMessage" v-on:keyup.enter="send(typeMessage)" />
+        <button class="widget-sendbtn"><i class="fa fa-send"></i></button>
+    </div>
+</div>
+
+<div class="widget-welcome" v-if="!showWidget && welcomeMessage">
+    <i class="fa fa-info-circle" style="font-size: 25px; flex: 1;"></i>
+    <div style="flex:6">
+        <b>{{welcomeMessage.title}}</b><br />
+        <span>{{welcomeMessage.text}}</span>
+    </div>
+</div>
+
+<div class="widget-popupbtn" @@click="showWidget = !showWidget">
+    <i class="fa" :class="{ 'fa-comment': !showWidget, 'fa-times': showWidget }"></i>
+</div>
+
+<link href="~/font-awesome-4.7.0/css/font-awesome.css" rel="stylesheet" />
+<link rel="stylesheet" href="/style.css" asp-append-version="true" />
+<script src="https://unpkg.com/petite-vue" asp-append-version="true"></script>
+<script src="/plugins/signalr.min.js"></script>
+<script src="/app.js"></script>
