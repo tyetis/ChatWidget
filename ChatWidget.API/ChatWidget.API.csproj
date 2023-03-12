@@ -9,6 +9,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\ChatWidget.API.Agents.HumanAgent\ChatWidget.API.Agents.HumanAgent.csproj" />
+    <ProjectReference Include="..\ChatWidget.API.Agents.MyChatBot\ChatWidget.API.Agents.MyChatBot.csproj" />
+    <ProjectReference Include="..\ChatWidget.API.Channels.Telegram\ChatWidget.API.Channels.Telegram.csproj" />
+    <ProjectReference Include="..\ChatWidget.API.Channels.WebChat\ChatWidget.API.Channels.WebChat.csproj" />
+    <ProjectReference Include="..\ChatWidget.API.Channels.WebSocket\ChatWidget.API.Channels.WebSocket.csproj" />
     <ProjectReference Include="..\ChatWidget\ChatWidget.csproj" />
   </ItemGroup>
 

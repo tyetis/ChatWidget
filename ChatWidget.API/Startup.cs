@@ -16,7 +16,10 @@ using System.Threading.Tasks;
 using ChatWidget.API.Channels.Telegram;
 using ChatWidget.API.Channels.WebSocket;
 using ChatWidget.API.Agents.HumanAgent;
+using ChatWidget.API.Utils;
 using ChatWidget.API.Agents.MyChatBot;
+using ChatWidget.API.Shared.Socket;
+using ChatWidget.API.Controllers;
 
 namespace ChatWidget.API
 {
@@ -44,6 +47,7 @@ namespace ChatWidget.API
             services.AddScoped<TelegramChannel>();
             services.AddScoped<MyChatBotAgent>();
             services.AddScoped<HumanAgent>();
+            services.AddScoped<IProxyHubContext, ProxyHubContext>();
             services.AddSingleton<IUserIdProvider, CustomUserIdProvider>();
         }
 
@@ -67,7 +71,7 @@ namespace ChatWidget.API
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapHub<ChatHub>("/chathub");
+                endpoints.MapHub<WebSocketChatHub>("/chathub");
                 endpoints.MapControllers();
             });
         }
