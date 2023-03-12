@@ -1,4 +1,4 @@
-{
+ï»¿{
   "Id": "MainFlow",
   "StartNode": "Node1",
   "Nodes": [
@@ -9,7 +9,7 @@
       "OnEnterActions": [
         {
           "ActionName": "SendTextAction",
-          "Parameters": { "text": "Hoþgeldiniz" }
+          "Parameters": { "text": "Welcome! How can i help you?" }
         }
       ],
       "OnReceiveActions": [

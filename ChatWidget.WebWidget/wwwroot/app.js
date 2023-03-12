@@ -6,10 +6,11 @@
         }
     }
     var messageService = {
+        apiUrl: "https://localhost:44322",
         createAjaxService({ token, onMessage }) {
             return {
                 async sendMessage(message) {
-                    var response = await fetch("https://localhost:44322/chat/send", {
+                    var response = await fetch(this.apiUrl + "/chat/send", {
                         method: "POST",
                         headers: {
                             'Content-Type': 'application/json',
@@ -29,7 +30,7 @@
         createSignalRService({ token, onConnected, onMessage, onError, onClose }) {
             var SignalRConnection = null;
             SignalRConnection = new signalR.HubConnectionBuilder()
-                .withUrl("https://localhost:44322" + "/chathub", {
+                .withUrl(this.apiUrl + "/chathub", {
                     accessTokenFactory: () => token
                 })
                 .withAutomaticReconnect([0, 1000, 5000, null])
@@ -45,6 +46,12 @@
                     SignalRConnection.invoke("OnMessage", message);
                 }
             }
+        },
+        async authorize() {
+            var data = await fetch(this.apiUrl + "/auth?botId=" + this.botId, {
+                method: "POST"
+            }).then((response) => response.json())
+            return data.token
         }
     }
 
@@ -71,16 +78,10 @@
             
             this.typeMessage = "";
         },
-        async authorize() {
-            var data = await fetch("https://localhost:44322/auth?botId=" + this.botId, {
-                method: "POST"
-            }).then((response) => response.json())
-            return data.token
-        },
         async setToken() {
             this.token = localStorage.getItem("token")
             if (!this.token) {
-                this.token = await this.authorize()
+                this.token = await messageService.authorize()
                 localStorage.setItem("token", this.token)
             }
         },
@@ -121,8 +122,8 @@
     app.init({
         botId: utils.getBotId(),
         welcomeMessage: {
-            title: "İndirim",
-            text: "hey hey hey hey hey "
+            title: "Do you have a question?",
+            text: "We are here to help about our product"
         }
     })
 
