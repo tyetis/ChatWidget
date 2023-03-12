@@ -7,11 +7,8 @@ namespace ChatWidget.API.Agents.HumanAgent
 {
     public class HumanAgent : BaseAgent, IAgent
     {
-        IServiceProvider ServiceProvider { get; set; }
-
         public HumanAgent(IServiceProvider serviceProvider): base(serviceProvider)
         {
-            ServiceProvider = serviceProvider;
         }
 
         public List<AgentMessage> OnMessageFromUser(AgentUserMessage payload)
