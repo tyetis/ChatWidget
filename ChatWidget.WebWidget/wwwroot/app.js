@@ -1,12 +1,15 @@
 ﻿(async function init() {
     var utils = {
-        getBotId() {
-            const urlParams = new URLSearchParams(window.location.search);
-            return urlParams.get('id');
+        createMessageService(app) {
+            return messageService.createSignalRService({
+                token: app.token,
+                onMessage: (m) => app.renderMessages([m])
+            })
         }
     }
     var messageService = {
         apiUrl: "https://localhost:44322",
+        SignalRConnection: null,
         createAjaxService({ token, onMessage }) {
             return {
                 async sendMessage(message) {
@@ -28,27 +31,27 @@
             }
         },
         createSignalRService({ token, onConnected, onMessage, onError, onClose }) {
-            var SignalRConnection = null;
-            SignalRConnection = new signalR.HubConnectionBuilder()
+            this.SignalRConnection?.stop()
+            this.SignalRConnection = new signalR.HubConnectionBuilder()
                 .withUrl(this.apiUrl + "/chathub", {
                     accessTokenFactory: () => token
                 })
                 .withAutomaticReconnect([0, 1000, 5000, null])
                 .build();
-            SignalRConnection.on("onmessage", onMessage);
-            SignalRConnection.onclose(onClose);
-            SignalRConnection.start().then(response => {
-                if (SignalRConnection.state === signalR.HubConnectionState.Connected) onConnected()
+            this.SignalRConnection.on("onmessage", onMessage);
+            this.SignalRConnection.onclose(onClose);
+            this.SignalRConnection.start().then(response => {
+                if (this.SignalRConnection.state === signalR.HubConnectionState.Connected) onConnected()
             }).catch(err => onError?.(err));
 
             return {
                 async sendMessage(message) {
-                    SignalRConnection.invoke("OnMessage", message);
-                }
+                    messageService.SignalRConnection.invoke("OnMessage", message);
+                },
             }
         },
-        async authorize() {
-            var data = await fetch(this.apiUrl + "/auth?botId=" + this.botId, {
+        async authorize(botId) {
+            var data = await fetch(this.apiUrl + "/auth?botId=" + botId, {
                 method: "POST"
             }).then((response) => response.json())
             return data.token
@@ -81,7 +84,7 @@
         async setToken() {
             this.token = localStorage.getItem("token")
             if (!this.token) {
-                this.token = await messageService.authorize()
+                this.token = await messageService.authorize(this.botId)
                 localStorage.setItem("token", this.token)
             }
         },
@@ -107,20 +110,23 @@
             this.welcomeMessage = args.welcomeMessage
             await this.setToken()
 
-            this.messageService = messageService.createSignalRService({
-                token: this.token,
-                onMessage: (m) => this.renderMessages([m])
-            })
+            this.messageService = utils.createMessageService(this)
 
             window.parent.postMessage({
                 IsOpenedChat: true,
                 IsMobile: false
             }, "*");
+        },
+        async refresh() {
+            this.messages = []
+            localStorage.clear()
+            await this.setToken()
+            this.messageService = utils.createMessageService(this)
         }
     })
 
     app.init({
-        botId: utils.getBotId(),
+        botId: 1,
         welcomeMessage: {
             title: "Do you have a question?",
             text: "We are here to help about our product"

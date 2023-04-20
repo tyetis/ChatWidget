@@ -22,7 +22,7 @@ namespace ChatWidget.API.Controllers
         public IActionResult Post(int botId)
         {
             if (botId != 1) return Forbid(); // check from database
-            var userId = 1; // generate from database
+            var userId = new Random().Next(1, 999); // generate from database
             var tokenString = TokenProvider.CreateToken(userId, botId);
             return Ok(new
             {
