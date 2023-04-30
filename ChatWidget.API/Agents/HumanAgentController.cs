@@ -1,4 +1,5 @@
 ﻿using ChatWidget.API.Agents.HumanAgent;
+using ChatWidget.API.Shared.Agents;
 using ChatWidget.Core.Message;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -23,13 +24,18 @@ namespace ChatWidget.API.Controllers
         [HttpGet("send")]
         public IActionResult Send([FromQuery]HumanAgentMessage payload)
         {
-            //payload.UserId = 1;
-            //payload.Type = "TextMessage";
-            //payload.Message = new TextMessage
-            //{
-            //    Text = "naber"
-            //};
-            Agent.OnMessageFromAgent(payload);
+            payload.UserId = Guid.Parse("A8045EE3-A958-4F09-B45F-1676D256E6D1");
+            payload.Type = "TextMessage";
+            payload.Message = new TextMessage
+            {
+                Text = "naber"
+            };
+            Agent.OnMessageFromAgent(new AgentMessage
+            {
+                UserId = payload.UserId,
+                Type = payload.Type,
+                Message = payload.Message
+            });
             return Ok();
         }
     }

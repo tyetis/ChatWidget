@@ -1,4 +1,6 @@
 ﻿using ChatWidget.API.Channels.Telegram;
+using ChatWidget.API.Shared.Channels;
+using ChatWidget.API.Shared.Service;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -6,24 +8,33 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Telegram.Bot;
 
 namespace ChatWidget.API.Controllers
 {
     [ApiController]
-    [Authorize]
     [Route("[controller]")]
     public class TelegramController : ControllerBase
     {
-        TelegramChannel Channel { get; set; }
+        IChannel Channel { get; set; }
 
         public TelegramController(TelegramChannel channel)
         {
             Channel = channel;
         }
 
-        [HttpPost("send")]
-        public IActionResult Send(TelegramUserMessage message)
+        [HttpGet("Webhook")]
+        public IActionResult Webhook()
         {
+            ITelegramBotClient client = new TelegramBotClient("6023162484:AAFWkPLCaBwz8-e1RVdT12e4Rkq8bzWQLag");
+            client.SetWebhookAsync("https://98f3-88-252-173-21.ngrok-free.app/telegram/webhook/6023162484");
+            return Ok();
+        }
+
+        [HttpPost("Webhook/{telegramBotId}")]
+        public IActionResult Send(long telegramBotId, [FromBody]TelegramUserMessage message)
+        {
+            message.TelegramBotId = telegramBotId;
             Channel.OnMessageFromUser(message);
             return Ok();
         }

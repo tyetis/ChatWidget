@@ -8,7 +8,7 @@ namespace ChatWidget.Core.Message
 {
     public interface IUserMessage
     {
-        public int BotId { get; set; }
-        public int UserId { get; set; }
+        public Guid BotId { get; set; }
+        public Guid UserId { get; set; }
     }
 }

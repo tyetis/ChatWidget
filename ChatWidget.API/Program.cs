@@ -20,7 +20,7 @@ namespace ChatWidget.API
             Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
-                    webBuilder.UseStartup<Startup>();
+                    webBuilder.UseStartup<Startup>().UseUrls(new[] { "https://5bf4-88-252-173-21.ngrok-free.app" });
                 });
     }
 }

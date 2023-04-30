@@ -1,5 +1,6 @@
 ﻿using ChatWidget.API.Shared.Agents;
 using ChatWidget.API.Shared.Channels;
+using ChatWidget.API.Shared.Service;
 using ChatWidget.API.Shared.Socket;
 using Microsoft.AspNetCore.SignalR;
 using System;
@@ -13,32 +14,26 @@ namespace ChatWidget.API.Channels.WebSocket
     {
         IProxyHubContext SignalRHub { get; set; }
 
-        public WebSocketChannel(IProxyHubContext signalRHub, IServiceProvider serviceProvider) : base(serviceProvider)
+        public WebSocketChannel(MessagingService messagingService, IProxyHubContext signalRHub) : base(messagingService)
         {
             SignalRHub = signalRHub;
         }
 
-        public void OnMessageFromUser(WebSocketUserMessage payload)
+        public void OnMessageFromUser<T>(T payload)
         {
-            //Save message to database
-            var agent = base.GetAgent("MyChatBot.MyChatBotAgent, ChatWidget.API.Agents.MyChatBot"); // from database
-
-            var agentMessages = agent.OnMessageFromUser(new AgentUserMessage
+            var _payload = payload as WebSocketUserMessage;
+            MessagingService.OnMessageFromUser(new ChannelUserMessage
             {
-                UserId = payload.UserId,
-                BotId = payload.BotId,
-                Type = payload.Type,
-                Message = payload.Message
+                UserId = _payload.UserId,
+                InboxId = _payload.InboxId,
+                Type = _payload.Type,
+                Message = _payload.Message
             });
-            agentMessages.ForEach(m => OnMessageFromAgent(m));
         }
 
-        public bool OnMessageFromAgent(AgentMessage payload)
+        public void OnMessageFromAgent(AgentMessage payload)
         {
-            //Save message to database
-            //Send SignalR
-            SignalRHub.Clients.User(payload.UserId.ToString()).SendAsync("onmessage", payload);
-            return true;
+            SignalRHub.Clients.User(payload.UserId.ToString()).SendAsync("onmessage", payload); //Send SignalR
         }
     }
 }

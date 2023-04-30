@@ -1,5 +1,6 @@
 ﻿using ChatWidget.API.Channels.WebSocket;
 using ChatWidget.API.Providers;
+using ChatWidget.API.Shared.Channels;
 using ChatWidget.API.Shared.Socket;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.SignalR;
@@ -14,18 +15,18 @@ namespace ChatWidget.API.Controllers
     public class WebSocketChatHub : Hub
     {
         ITokenProvider TokenProvider { get; set; }
-        WebSocketChannel Messaging { get; set; }
+        IChannel Channel { get; set; }
 
-        public WebSocketChatHub(WebSocketChannel messaging, ITokenProvider tokenProvider)
+        public WebSocketChatHub(WebSocketChannel channel, ITokenProvider tokenProvider)
         {
-            Messaging = messaging;
+            Channel = channel;
             TokenProvider = tokenProvider;
         }
         public void OnMessage(WebSocketUserMessage payload)
         {
             payload.UserId = TokenProvider.UserId.Value;
-            payload.BotId = TokenProvider.BotId;
-            Messaging.OnMessageFromUser(payload);
+            payload.InboxId = TokenProvider.InboxId.Value;
+            Channel.OnMessageFromUser(payload);
         }
 
         public override async Task OnConnectedAsync()

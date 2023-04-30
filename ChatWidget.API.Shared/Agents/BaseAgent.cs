@@ -1,4 +1,5 @@
 ﻿using ChatWidget.API.Shared.Channels;
+using ChatWidget.API.Shared.Service;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,17 +9,11 @@ namespace ChatWidget.API.Shared.Agents
 {
     public abstract class BaseAgent
     {
-        IServiceProvider ServiceProvider { get; set; }
+        protected MessagingService MessagingService { get; set; }
 
-        public BaseAgent(IServiceProvider serviceProvider)
+        public BaseAgent(MessagingService messagingService)
         {
-            ServiceProvider = serviceProvider;
-        }
-
-        public IChannel GetChannel(string channelType)
-        {
-            var type = Type.GetType($"ChatWidget.API.Channels.{channelType}");
-            return (IChannel)ServiceProvider.GetService(type);
+            MessagingService = messagingService;
         }
     }
 }

@@ -20,12 +20,12 @@ namespace ChatWidget.API.Providers
             ContextAccessor = contextAccessor;
         }
 
-        public string CreateToken(int userId, int botId)
+        public string CreateToken(Guid userId, Guid inboxId)
         {
             Claim[] claims = new[]
             {
                 new Claim("UserId", userId.ToString()),
-                new Claim("BotId", botId.ToString()),
+                new Claim("InboxId", inboxId.ToString()),
             };
             //TODO: issuer, audience appsettings den çekilecek
             var token = new JwtSecurityToken
@@ -40,21 +40,21 @@ namespace ChatWidget.API.Providers
 
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
-        public int? UserId
+        public Guid? UserId
         {
             get
             {
                 Claim claim = ContextAccessor.HttpContext.User.Claims.Where(n => n.Type == "UserId").FirstOrDefault();
-                if (claim != null) return int.Parse(claim.Value);
+                if (claim != null) return Guid.Parse(claim.Value);
                 else return null;
             }
         }
-        public int? BotId
+        public Guid? InboxId
         {
             get
             {
-                Claim claim = ContextAccessor.HttpContext.User.Claims.Where(n => n.Type == "BotId").FirstOrDefault();
-                if (claim != null) return int.Parse(claim.Value);
+                Claim claim = ContextAccessor.HttpContext.User.Claims.Where(n => n.Type == "InboxId").FirstOrDefault();
+                if (claim != null) return Guid.Parse(claim.Value);
                 else return null;
             }
         }

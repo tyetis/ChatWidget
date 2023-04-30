@@ -1,4 +1,5 @@
 ﻿using ChatWidget.API.Providers;
+using ChatWidget.API.Shared.Service;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -11,19 +12,20 @@ namespace ChatWidget.API.Controllers
     [Route("[controller]")]
     public class AuthController : ControllerBase
     {
+        MessagingService MessagingService { get; set; }
         ITokenProvider TokenProvider { get; set; }
 
-        public AuthController(ITokenProvider tokenProvider)
+        public AuthController(MessagingService messagingService, ITokenProvider tokenProvider)
         {
+            MessagingService = messagingService;
             TokenProvider = tokenProvider;
         }
 
         [HttpPost]
-        public IActionResult Post(int botId)
+        public IActionResult Post(Guid inboxId)
         {
-            if (botId != 1) return Forbid(); // check from database
-            var userId = new Random().Next(1, 999); // generate from database
-            var tokenString = TokenProvider.CreateToken(userId, botId);
+            var user = MessagingService.CreateUser(inboxId, 1);
+            var tokenString = TokenProvider.CreateToken(user.Id, inboxId);
             return Ok(new
             {
                 token = tokenString

@@ -7,6 +7,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using ChatWidget.API.Shared.Channels;
+using ChatWidget.API.Shared.Service;
 
 namespace ChatWidget.API.Controllers
 {
@@ -28,8 +30,10 @@ namespace ChatWidget.API.Controllers
         public HttpResponse Send(HttpUserMessage message)
         {
             message.UserId = TokenProvider.UserId.Value;
-            message.BotId = TokenProvider.BotId;
-            var response = Channel.OnMessageFromUser(message);
+            message.InboxId = TokenProvider.InboxId.Value;
+            var response = new HttpResponse { Result = true };
+            Channel.OnMessageFromAgentHandler = (message) => response.AgentMessage.Add(message);
+            Channel.OnMessageFromUser(message);
             return response;
         }
     }

@@ -1,5 +1,6 @@
 ﻿using ChatWidget.API.Shared.Agents;
 using ChatWidget.API.Shared.Channels;
+using ChatWidget.API.Shared.Service;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,32 +10,25 @@ namespace ChatWidget.API.Channels.Http
 {
     public class HttpChannel: BaseChannel, IChannel
     {
-        public HttpChannel(IServiceProvider serviceProvider) : base(serviceProvider)
-        {
-        }
+        public HttpChannel(MessagingService messagingService) : base(messagingService) { }
 
-        public HttpResponse OnMessageFromUser(HttpUserMessage payload)
+        public Action<AgentMessage> OnMessageFromAgentHandler { get; set; }
+
+        public void OnMessageFromUser<T>(T payload)
         {
-            //Save message to database
-            var agent = base.GetAgent("MyChatBot.MyChatBotAgent"); // from database
-            var agentMessage = agent.OnMessageFromUser(new AgentUserMessage
+            var _payload = payload as HttpUserMessage;
+            MessagingService.OnMessageFromUser(new ChannelUserMessage
             {
-                UserId = payload.UserId,
-                BotId = payload.BotId,
-                Type = payload.Type,
-                Message = payload.Message
+                UserId = _payload.UserId,
+                InboxId = _payload.InboxId,
+                Type = _payload.Type,
+                Message = _payload.Message
             });
-
-            return new HttpResponse
-            {
-                Result = true,
-                AgentMessage = agentMessage
-            };
         }
 
-        public bool OnMessageFromAgent(AgentMessage payload)
+        public void OnMessageFromAgent(AgentMessage payload)
         {
-            throw new NotImplementedException();
+            OnMessageFromAgentHandler(payload);
         }
     }
 }

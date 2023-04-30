@@ -1,36 +1,50 @@
 ﻿using ChatWidget.API.Shared.Agents;
 using ChatWidget.API.Shared.Channels;
+using ChatWidget.API.Shared.Service;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json;
 using System.Threading.Tasks;
+using Telegram.Bot;
 
 namespace ChatWidget.API.Channels.Telegram
 {
-    public class TelegramChannel: BaseChannel, IChannel
+    public class TelegramChannel : BaseChannel, IChannel
     {
-        public TelegramChannel(IServiceProvider serviceProvider) : base(serviceProvider)
-        {
-        }
+        public TelegramChannel(MessagingService messagingService) : base(messagingService) { }
 
-        public void OnMessageFromUser(TelegramUserMessage payload)
+        public void OnMessageFromUser<T>(T payload)
         {
-            //Save message to database
-            var agent = base.GetAgent("MyChatBot.MyChatBotAgent"); // from database
-
-            var messages = agent.OnMessageFromUser(new AgentUserMessage
+            var _payload = payload as TelegramUserMessage;
+            var inbox = MessagingService.GetInboxFromChannel(_payload.TelegramBotId.ToString(), 2); // from channel inbox id
+            var recipientId = _payload.message != null ? _payload.message.from.id : _payload.callback_query.from.id;
+            var user = MessagingService.GetOrCreateUserFromChannel(inbox.InboxId, 2, recipientId.ToString()); // from channel user id
+            MessagingService.OnMessageFromUser(new ChannelUserMessage
             {
+                UserId = user.Id,
+                InboxId = inbox.InboxId,
                 Type = "UserTextMessage",
-                Message = payload.Text
+                Message = JsonSerializer.Serialize(new
+                {
+                    Text = _payload.message.text
+                })
             });
-            messages.ForEach(m => OnMessageFromAgent(m));
         }
 
-        public bool OnMessageFromAgent(AgentMessage payload)
+        public void OnMessageFromAgent(AgentMessage payload)
         {
-            //Save message to database
             //Send Telegram
-            return true;
+            var channelUser = MessagingService.GetChannelUser(payload.UserId, 2);
+            sendToTelegram(channelUser.ChannelUserId, payload.Message, "6023162484:AAFWkPLCaBwz8-e1RVdT12e4Rkq8bzWQLag");
+        }
+
+        private void sendToTelegram(string channelUserId, object messageRender, string accessToken)
+        {
+            ITelegramBotClient client = new TelegramBotClient(accessToken);
+
+            var text = messageRender.GetType().GetProperty("Text").GetValue(messageRender).ToString();
+            client.SendTextMessageAsync(channelUserId, text).Wait();
         }
     }
 }

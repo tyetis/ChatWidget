@@ -1,0 +1,61 @@
+﻿{
+   "CodeGenerationMode": 1,
+   "ContextClassName": "ChatWidgetDBContext",
+   "ContextNamespace": null,
+   "DefaultDacpacSchema": null,
+   "FilterSchemas": false,
+   "IncludeConnectionString": true,
+   "ModelNamespace": null,
+   "OutputContextPath": "EntityFramework",
+   "OutputPath": "EntityFramework",
+   "PreserveCasingWithRegex": true,
+   "ProjectRootNamespace": "ChatWidget.API.Infrastructure",
+   "Schemas": null,
+   "SelectedHandlebarsLanguage": 0,
+   "SelectedToBeGenerated": 0,
+   "Tables": [
+      {
+         "Name": "[dbo].[AgentInboxes]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[ChannelInboxes]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[ChannelUsers]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Inboxes]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Messages]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Users]",
+         "ObjectType": 0
+      }
+   ],
+   "UiHint": "(localdb)\\MSSQLLocalDB.ChatWidgetDB",
+   "UseBoolPropertiesWithoutDefaultSql": false,
+   "UseDatabaseNames": false,
+   "UseDbContextSplitting": false,
+   "UseFluentApiOnly": true,
+   "UseHandleBars": false,
+   "UseHierarchyId": false,
+   "UseInflector": true,
+   "UseLegacyPluralizer": false,
+   "UseManyToManyEntity": false,
+   "UseNoConstructor": false,
+   "UseNoDefaultConstructor": false,
+   "UseNoNavigations": false,
+   "UseNoObjectFilter": false,
+   "UseNodaTime": false,
+   "UseNullableReferences": false,
+   "UseSchemaFolders": false,
+   "UseSpatial": false,
+   "UseT4": false
+}

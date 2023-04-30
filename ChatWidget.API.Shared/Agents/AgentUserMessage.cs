@@ -7,8 +7,8 @@ namespace ChatWidget.API.Shared.Agents
 {
     public class AgentUserMessage
     {
-        public int UserId { get; set; }
-        public int? BotId { get; set; } // if exists
+        public string UserId { get; set; }
+        public string AgentInboxId { get; set; }
         public string Type { get; set; }
         public string Message { get; set; }
     }

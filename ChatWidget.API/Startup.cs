@@ -20,6 +20,7 @@ using ChatWidget.API.Utils;
 using ChatWidget.API.Agents.MyChatBot;
 using ChatWidget.API.Shared.Socket;
 using ChatWidget.API.Controllers;
+using ChatWidget.API.Shared.Service;
 
 namespace ChatWidget.API
 {
@@ -49,6 +50,8 @@ namespace ChatWidget.API
             services.AddScoped<HumanAgent>();
             services.AddScoped<IProxyHubContext, ProxyHubContext>();
             services.AddSingleton<IUserIdProvider, CustomUserIdProvider>();
+            services.AddScoped<MessagingService>();
+            services.AddScoped<DatabaseService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

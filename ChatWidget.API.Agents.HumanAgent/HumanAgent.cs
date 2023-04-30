@@ -1,4 +1,5 @@
 ﻿using ChatWidget.API.Shared.Agents;
+using ChatWidget.API.Shared.Service;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,25 +9,16 @@ namespace ChatWidget.API.Agents.HumanAgent
 {
     public class HumanAgent : BaseAgent, IAgent
     {
-        public HumanAgent(IServiceProvider serviceProvider): base(serviceProvider)
-        {
-        }
+        public HumanAgent(MessagingService messagingService): base(messagingService) {}
 
-        public List<AgentMessage> OnMessageFromUser(AgentUserMessage payload)
+        public void OnMessageFromUser(AgentUserMessage payload)
         {
             throw new NotImplementedException();
         }
 
-        public void OnMessageFromAgent(HumanAgentMessage message)
+        public void OnMessageFromAgent(AgentMessage message)
         {
-            var channel = base.GetChannel("WebSocket.WebSocketChannel, ChatWidget.API.Channels.WebSocket"); // Get channel from database
-            // Convert HumanAgentMessage to AgentMessage
-            channel.OnMessageFromAgent(new AgentMessage
-            {
-                UserId = message.UserId,
-                Type = message.Type,
-                Message = message.Message
-            });
+            MessagingService.OnMessageFromAgent(message);
         }
     }
 }

@@ -8,7 +8,7 @@
         }
     }
     var messageService = {
-        apiUrl: "https://localhost:44322",
+        apiUrl: "https://localhost:44335",
         SignalRConnection: null,
         createAjaxService({ token, onMessage }) {
             return {
@@ -50,8 +50,8 @@
                 },
             }
         },
-        async authorize(botId) {
-            var data = await fetch(this.apiUrl + "/auth?botId=" + botId, {
+        async authorize(inboxId) {
+            var data = await fetch(this.apiUrl + "/auth?inboxId=" + inboxId, {
                 method: "POST"
             }).then((response) => response.json())
             return data.token
@@ -60,7 +60,7 @@
 
     var app = PetiteVue.reactive({
         token: null,
-        botId: null,
+        inboxId: null,
         typeMessage: null,
         showWidget: true,
         messages: [],
@@ -84,7 +84,7 @@
         async setToken() {
             this.token = localStorage.getItem("token")
             if (!this.token) {
-                this.token = await messageService.authorize(this.botId)
+                this.token = await messageService.authorize(this.inboxId)
                 localStorage.setItem("token", this.token)
             }
         },
@@ -106,7 +106,7 @@
             this.scrollToBottom()
         },
         async init(args) {
-            this.botId = args.botId;
+            this.inboxId = args.inboxId;
             this.welcomeMessage = args.welcomeMessage
             await this.setToken()
 
@@ -126,7 +126,7 @@
     })
 
     app.init({
-        botId: 1,
+        inboxId: "89710015-b6fb-4221-b940-013308675b2d",
         welcomeMessage: {
             title: "Do you have a question?",
             text: "We are here to help about our product"

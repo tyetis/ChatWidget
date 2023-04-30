@@ -17,7 +17,7 @@ namespace ChatWidget.Core.Manager
     {
         ConcurrentDictionary<string, object> SessionDictionary { get; set; }
 
-        public SessionManager(int UserId)
+        public SessionManager(Guid UserId)
         {
             SessionDictionary = Global.Cache.GetOrCreate(UserId, entry =>
             {

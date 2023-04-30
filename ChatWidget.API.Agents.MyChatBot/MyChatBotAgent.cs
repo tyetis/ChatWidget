@@ -1,4 +1,5 @@
 ﻿using ChatWidget.API.Shared.Agents;
+using ChatWidget.API.Shared.Service;
 using ChatWidget.Core.Message;
 using System;
 using System.Collections.Generic;
@@ -9,35 +10,37 @@ using System.Threading.Tasks;
 
 namespace ChatWidget.API.Agents.MyChatBot
 {
-    public class MyChatBotAgent : IAgent
+    public class MyChatBotAgent : BaseAgent, IAgent
     {
         ChatBot ChatBot { get; set; }
 
-        public MyChatBotAgent(ChatBot chatBot)
+        public MyChatBotAgent(ChatBot chatBot, MessagingService messagingService): base(messagingService)
         {
             ChatBot = chatBot;
         }
 
-        public List<AgentMessage> OnMessageFromUser(AgentUserMessage payload)
+        public void OnMessageFromUser(AgentUserMessage payload)
         {
-            var messages = new List<AgentMessage>();
-            ChatBot.MessageHandler = (botMessage) => messages.Add(new AgentMessage
+            ChatBot.MessageHandler = (botMessage) => OnMessageFromAgent(new AgentMessage
             {
-                UserId = payload.UserId,
+                UserId = Guid.Parse(payload.UserId),
                 Type = botMessage.GetType().Name,
                 Message = botMessage
             });
-            
             ChatBot.Send(ConvertUserMessage(payload));
-            return messages;
+        }
+
+        public void OnMessageFromAgent(AgentMessage message)
+        {
+            MessagingService.OnMessageFromAgent(message);
         }
 
         private IUserMessage ConvertUserMessage(AgentUserMessage message)
         {
             var type = Type.GetType($"ChatWidget.Core.Message.{message.Type}, ChatWidget");
             var userMessage = (IUserMessage)JsonSerializer.Deserialize(message.Message, type);
-            userMessage.UserId = message.UserId;
-            userMessage.BotId = message.BotId.Value;
+            userMessage.UserId = Guid.Parse(message.UserId);
+            userMessage.BotId = Guid.Parse(message.AgentInboxId);
             return userMessage;
         }
     }

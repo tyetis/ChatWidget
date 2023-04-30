@@ -21,14 +21,14 @@ namespace ChatWidget
                     Console.WriteLine(JsonSerializer.Serialize((object)message));
             };
 
-            chatBot.Send(new UserVisitMessage { BotId = 1, UserId = 1 });
+            chatBot.Send(new UserVisitMessage { BotId = Guid.Parse(""), UserId = Guid.Parse("") });
             while (true)
             {
                 Console.Write("User  : ");
                 chatBot.Send(new UserTextMessage
                 {
-                    BotId = 1,
-                    UserId = 1,
+                    BotId = Guid.Parse(""),
+                    UserId = Guid.Parse(""),
                     Text = Console.ReadLine()
                 });
             }

@@ -7,8 +7,8 @@ namespace ChatWidget.API.Providers
 {
     public interface ITokenProvider
     {
-        string CreateToken(int userId, int botId);
-        int? UserId { get; }
-        int? BotId { get; }
+        string CreateToken(Guid userId, Guid botId);
+        Guid? UserId { get; }
+        Guid? InboxId { get; }
     }
 }

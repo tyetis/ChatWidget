@@ -39,7 +39,7 @@ namespace ChatWidget.DialogEngine
             }
         }
 
-        private FlowJsonModel GetFlow(string Id, int botId)
+        private FlowJsonModel GetFlow(string Id, Guid botId)
         {
             var file = File.ReadAllText($"{Config.DataPath}/Bot_{botId}/Flows/{Id}.json");
             return JsonSerializer.Deserialize<FlowJsonModel>(file);

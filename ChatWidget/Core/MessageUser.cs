@@ -8,6 +8,6 @@ namespace ChatWidget.Core
 {
     public class MessageUser
     {
-        public int Id { get; set; }
+        public Guid Id { get; set; }
     }
 }

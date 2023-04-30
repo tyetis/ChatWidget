@@ -7,6 +7,7 @@ namespace ChatWidget.API.Shared.Agents
 {
     public interface IAgent
     {
-        List<AgentMessage> OnMessageFromUser(AgentUserMessage payload);
+        void OnMessageFromUser(AgentUserMessage payload);
+        void OnMessageFromAgent(AgentMessage message);
     }
 }

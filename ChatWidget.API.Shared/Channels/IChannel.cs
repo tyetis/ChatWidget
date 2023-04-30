@@ -8,6 +8,7 @@ namespace ChatWidget.API.Shared.Channels
 {
     public interface IChannel
     {
-        bool OnMessageFromAgent(AgentMessage payload);
+        void OnMessageFromUser<T>(T payload);
+        void OnMessageFromAgent(AgentMessage payload);
     }
 }

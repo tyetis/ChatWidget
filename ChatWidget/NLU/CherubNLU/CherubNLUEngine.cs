@@ -42,7 +42,7 @@ namespace ChatWidget.NLU.CherubNLU
             classifier.Train(sentences);
         }
 
-        private Tuple<string, double> Predict(string utterance, int botId)
+        private Tuple<string, double> Predict(string utterance, Guid botId)
         {
             if (!Directory.Exists(Config.DataPath)) return null;
             var classifier = GetClassifier($"{Config.DataPath}/Bot_{botId}");
