@@ -17,12 +17,11 @@ namespace ChatWidget.API.Channels.Http
         public void OnMessageFromUser<T>(T payload)
         {
             var _payload = payload as HttpUserMessage;
-            MessagingService.OnMessageFromUser(new ChannelUserMessage
+            MessagingService.OnMessageFromUser(new ChannelMessage
             {
                 UserId = _payload.UserId,
                 InboxId = _payload.InboxId,
-                Type = _payload.Type,
-                Message = _payload.Message
+                Message = ConvertChannelMessage(_payload.Type, _payload.Message)
             });
         }
 

@@ -22,18 +22,22 @@ namespace ChatWidget.API.Channels.WebSocket
         public void OnMessageFromUser<T>(T payload)
         {
             var _payload = payload as WebSocketUserMessage;
-            MessagingService.OnMessageFromUser(new ChannelUserMessage
+            MessagingService.OnMessageFromUser(new ChannelMessage
             {
                 UserId = _payload.UserId,
                 InboxId = _payload.InboxId,
-                Type = _payload.Type,
-                Message = _payload.Message
+                Message = ConvertChannelMessage(_payload.Type, _payload.Message)
             });
         }
 
         public void OnMessageFromAgent(AgentMessage payload)
         {
-            SignalRHub.Clients.User(payload.UserId.ToString()).SendAsync("onmessage", payload); //Send SignalR
+            SignalRHub.Clients.User(payload.UserId.ToString()).SendAsync("onmessage", new
+            {
+                UserId = payload.UserId,
+                Type = payload.Message.GetType().Name,
+                Message = (object)payload.Message
+            }); //Send SignalR
         }
     }
 }

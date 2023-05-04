@@ -22,7 +22,7 @@ namespace ChatWidget.API.Shared.Service
             Database = database;
         }
 
-        public void OnMessageFromUser(ChannelUserMessage payload)
+        public void OnMessageFromUser(ChannelMessage payload)
         {
             SaveUserMessage(payload);
             var agentInbox = GetAgentInbox(payload.InboxId);
@@ -31,7 +31,6 @@ namespace ChatWidget.API.Shared.Service
             {
                 UserId = payload.UserId.ToString(),
                 AgentInboxId = agentInbox.AgentInboxId,
-                Type = payload.Type,
                 Message = payload.Message
             });
         }
@@ -109,7 +108,7 @@ namespace ChatWidget.API.Shared.Service
             return (IChannel)ServiceProvider.GetService(type);
         }
 
-        private void SaveUserMessage(ChannelUserMessage payload)
+        private void SaveUserMessage(ChannelMessage payload)
         {
             using (var db = Database.GetDatabase())
             {
@@ -117,8 +116,8 @@ namespace ChatWidget.API.Shared.Service
                 {
                     UserId = payload.UserId,
                     Owner = (int)Enums.MessageOwner.User,
-                    Type = payload.Type,
-                    Message1 = payload.Message,
+                    Type = payload.Message.GetType().Name,
+                    Message1 = JsonSerializer.Serialize(payload.Message),
                     SentDate = DateTime.Now
                 });
                 db.SaveChanges();
@@ -133,8 +132,8 @@ namespace ChatWidget.API.Shared.Service
                 {
                     UserId = payload.UserId,
                     Owner = (int)Enums.MessageOwner.Agent,
-                    Type = payload.Type,
-                    Message1 = payload.Message,
+                    Type = payload.Message.GetType().Name,
+                    Message1 = JsonSerializer.Serialize(payload.Message),
                     SentDate = DateTime.Now
                 });
                 db.SaveChanges();

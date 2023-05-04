@@ -75,7 +75,7 @@
             })
 
             await this.messageService.sendMessage({
-                type: "UserTextMessage",
+                type: "TextMessage",
                 message: JSON.stringify({ Text: message })
             })
             

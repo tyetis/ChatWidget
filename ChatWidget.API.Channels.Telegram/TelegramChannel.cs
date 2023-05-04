@@ -1,5 +1,6 @@
 ﻿using ChatWidget.API.Shared.Agents;
 using ChatWidget.API.Shared.Channels;
+using ChatWidget.API.Shared.Model;
 using ChatWidget.API.Shared.Service;
 using System;
 using System.Collections.Generic;
@@ -20,15 +21,14 @@ namespace ChatWidget.API.Channels.Telegram
             var inbox = MessagingService.GetInboxFromChannel(_payload.TelegramBotId.ToString(), 2); // from channel inbox id
             var recipientId = _payload.message != null ? _payload.message.from.id : _payload.callback_query.from.id;
             var user = MessagingService.GetOrCreateUserFromChannel(inbox.InboxId, 2, recipientId.ToString()); // from channel user id
-            MessagingService.OnMessageFromUser(new ChannelUserMessage
+            MessagingService.OnMessageFromUser(new ChannelMessage
             {
                 UserId = user.Id,
                 InboxId = inbox.InboxId,
-                Type = "UserTextMessage",
-                Message = JsonSerializer.Serialize(new
+                Message = new TextMessage
                 {
                     Text = _payload.message.text
-                })
+                }
             });
         }
 

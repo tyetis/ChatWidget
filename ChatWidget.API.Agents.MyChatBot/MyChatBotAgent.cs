@@ -1,4 +1,5 @@
 ﻿using ChatWidget.API.Shared.Agents;
+using ChatWidget.API.Shared.Model;
 using ChatWidget.API.Shared.Service;
 using ChatWidget.Core.Message;
 using System;
@@ -24,8 +25,7 @@ namespace ChatWidget.API.Agents.MyChatBot
             ChatBot.MessageHandler = (botMessage) => OnMessageFromAgent(new AgentMessage
             {
                 UserId = Guid.Parse(payload.UserId),
-                Type = botMessage.GetType().Name,
-                Message = JsonSerializer.Serialize(botMessage)
+                Message = ConvertAgentMessage(botMessage)
             });
             ChatBot.Send(ConvertUserMessage(payload));
         }
@@ -37,11 +37,24 @@ namespace ChatWidget.API.Agents.MyChatBot
 
         private IUserMessage ConvertUserMessage(AgentUserMessage message)
         {
-            var type = Type.GetType($"ChatWidget.Core.Message.{message.Type}, ChatWidget");
-            var userMessage = (IUserMessage)JsonSerializer.Deserialize(message.Message, type);
+            IUserMessage userMessage = null;
+            if (message.Message is Shared.Model.TextMessage msg) userMessage = new UserTextMessage
+            {
+                Text = msg.Text
+            };
             userMessage.UserId = Guid.Parse(message.UserId);
             userMessage.BotId = Guid.Parse(message.AgentInboxId);
             return userMessage;
+        }
+
+        private IMessage ConvertAgentMessage(IBotMessage botMessage)
+        {
+            if (botMessage is Core.Message.TextMessage message)
+                return new Shared.Model.TextMessage
+                {
+                    Text = message.Text
+                };
+            else return null;
         }
     }
 }
