@@ -134,7 +134,7 @@ namespace ChatWidget.API.Shared.Service
                     UserId = payload.UserId,
                     Owner = (int)Enums.MessageOwner.Agent,
                     Type = payload.Type,
-                    Message1 = JsonSerializer.Serialize(payload.Message),
+                    Message1 = payload.Message,
                     SentDate = DateTime.Now
                 });
                 db.SaveChanges();

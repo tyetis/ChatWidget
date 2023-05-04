@@ -25,7 +25,7 @@ namespace ChatWidget.API.Agents.MyChatBot
             {
                 UserId = Guid.Parse(payload.UserId),
                 Type = botMessage.GetType().Name,
-                Message = botMessage
+                Message = JsonSerializer.Serialize(botMessage)
             });
             ChatBot.Send(ConvertUserMessage(payload));
         }

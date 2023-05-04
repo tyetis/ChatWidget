@@ -9,6 +9,6 @@ namespace ChatWidget.API.Agents.HumanAgent
     {
         public Guid UserId { get; set; }
         public string Type { get; set; }
-        public object Message { get; set; }
+        public string Message { get; set; }
     }
 }

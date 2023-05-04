@@ -26,10 +26,10 @@ namespace ChatWidget.API.Controllers
         {
             payload.UserId = Guid.Parse("A8045EE3-A958-4F09-B45F-1676D256E6D1");
             payload.Type = "TextMessage";
-            payload.Message = new TextMessage
+            payload.Message = System.Text.Json.JsonSerializer.Serialize(new TextMessage
             {
                 Text = "naber"
-            };
+            });
             Agent.OnMessageFromAgent(new AgentMessage
             {
                 UserId = payload.UserId,
