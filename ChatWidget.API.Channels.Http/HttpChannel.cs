@@ -1,5 +1,6 @@
 ﻿using ChatWidget.API.Shared.Agents;
 using ChatWidget.API.Shared.Channels;
+using ChatWidget.API.Shared.Common;
 using ChatWidget.API.Shared.Service;
 using System;
 using System.Collections.Generic;
@@ -21,7 +22,7 @@ namespace ChatWidget.API.Channels.Http
             {
                 UserId = _payload.UserId,
                 InboxId = _payload.InboxId,
-                Message = ConvertChannelMessage(_payload.Type, _payload.Message)
+                Message = Utils.GetSystemMessage(_payload.Type, _payload.Message)
             });
         }
 

@@ -17,12 +17,5 @@ namespace ChatWidget.API.Shared.Channels
         {
             MessagingService = messagingService;
         }
-
-        public IMessage ConvertChannelMessage(string type, string message)
-        {
-            var aa = new TextMessage().GetType();
-            var _type = Type.GetType($"ChatWidget.API.Shared.Model.{type}");
-            return (IMessage)JsonSerializer.Deserialize(message, _type);
-        }
     }
 }

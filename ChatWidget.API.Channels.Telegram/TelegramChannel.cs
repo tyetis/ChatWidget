@@ -39,11 +39,11 @@ namespace ChatWidget.API.Channels.Telegram
             sendToTelegram(channelUser.ChannelUserId, payload.Message, "6023162484:AAFWkPLCaBwz8-e1RVdT12e4Rkq8bzWQLag");
         }
 
-        private void sendToTelegram(string channelUserId, object messageRender, string accessToken)
+        private void sendToTelegram(string channelUserId, IMessage message, string accessToken)
         {
             ITelegramBotClient client = new TelegramBotClient(accessToken);
 
-            var text = messageRender.GetType().GetProperty("Text").GetValue(messageRender).ToString();
+            var text = message.GetType().GetProperty("Text").GetValue(message).ToString();
             client.SendTextMessageAsync(channelUserId, text).Wait();
         }
     }
