@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ChatWidget\ChatWidget.csproj" />
+    <ProjectReference Include="..\TalkBox.Shared\TalkBox.Shared.csproj" />
+  </ItemGroup>
+
+</Project>
