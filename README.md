@@ -1,5 +1,5 @@
 
-# ChatWidget
+# TalkBox
 
 This project was started in order to communicate with chatbots and other channels via web widget. It also includes a chatbot project internally.
 
