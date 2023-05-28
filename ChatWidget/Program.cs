@@ -11,6 +11,8 @@ namespace ChatWidget
         {
             var config = GetConfig();
             var chatBot = new ChatBot(config);
+            var BotId = Guid.Parse("44dd68c3-df95-466e-a9a3-e1d002cc0f4f");
+            var UserId = Guid.NewGuid();
             //chatBot.Train();
             chatBot.MessageHandler = (message) =>
             {
@@ -21,14 +23,14 @@ namespace ChatWidget
                     Console.WriteLine(JsonSerializer.Serialize((object)message));
             };
 
-            chatBot.Send(new UserVisitMessage { BotId = Guid.Parse(""), UserId = Guid.Parse("") });
+            chatBot.Send(new UserVisitMessage { BotId = BotId, UserId = UserId });
             while (true)
             {
                 Console.Write("User  : ");
                 chatBot.Send(new UserTextMessage
                 {
-                    BotId = Guid.Parse(""),
-                    UserId = Guid.Parse(""),
+                    BotId = BotId,
+                    UserId = UserId,
                     Text = Console.ReadLine()
                 });
             }

@@ -80,6 +80,7 @@
             })
             
             this.typeMessage = "";
+            this.scrollToBottom()
         },
         async setToken() {
             this.token = localStorage.getItem("token")

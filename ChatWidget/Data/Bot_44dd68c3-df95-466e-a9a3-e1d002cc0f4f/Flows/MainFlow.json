@@ -15,7 +15,7 @@
       "OnReceiveActions": [
         {
           "ActionName": "SendTextAction",
-          "Parameters": { "text": "Intent: {{ Session.Intent }} City: {{ Slots[\"city\"] }} Date: {{ Slots[\"date\"] }}" }
+          "Parameters": { "text": "Intent: {{ Session.Intent }} City: {{ Slots[\"location\"] }} Language: {{ Slots[\"language\"] }}" }
         }
       ],
       "NextConditions": []

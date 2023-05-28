@@ -3,6 +3,7 @@ using ChatWidget.Core.Manager;
 using ChatWidget.Core.Message;
 using ChatWidget.NLU;
 using ChatWidget.NLU.CherubNLU;
+using ChatWidget.NLU.NodeNLU;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
@@ -21,7 +22,7 @@ namespace ChatWidget
         public ChatBot(Config config)
         {
             DialogEngine = new DialogEngine.DialogEngine(config);
-            NLUEngine = new CherubNLUEngine(config);
+            NLUEngine = new RasaNLUEngine(config);
         }
 
         public void Send(IUserMessage userMessage)
