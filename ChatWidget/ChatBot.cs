@@ -7,6 +7,7 @@ using ChatWidget.NLU.NodeNLU;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
+using System.Dynamic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -17,11 +18,13 @@ namespace ChatWidget
     {
         public Action<IBotMessage> MessageHandler;
         private IEngine DialogEngine;
+        private IEngine QnAEngine;
         private INLUEngine NLUEngine;
 
         public ChatBot(Config config)
         {
             DialogEngine = new DialogEngine.DialogEngine(config);
+            QnAEngine = new QnAEngine.QnAEngine(config);
             NLUEngine = new RasaNLUEngine(config);
         }
 
@@ -30,6 +33,7 @@ namespace ChatWidget
             var context = CreateMessageContext(userMessage);
 
             NLUEngine.OnMessage(context);
+            QnAEngine.OnMessage(context);
             DialogEngine.OnMessage(context);
         }
 
@@ -51,8 +55,9 @@ namespace ChatWidget
                 UserMessage = message,
                 Response = MessageHandler,
                 Bot = new MessageBot { Id = message.BotId },
-                User = new MessageUser { Id = message.UserId },
+                User = new MessageUser { Id = message.UserId, Language = "TR" },
                 Session = new SessionManager(message.UserId),
+                NLU = new NLUData {},
                 Temp = new Dictionary<string, string>()
             };
         }

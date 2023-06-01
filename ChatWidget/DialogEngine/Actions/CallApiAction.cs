@@ -16,10 +16,10 @@ namespace ChatWidget.DialogEngine.Actions
 
         public void Run()
         {
-            string Url = Parameters.GetValue("Url");
-            string Method = base.Parameters.GetValue("Method");
-            string RqParameters = base.Parameters.GetValue("Parameters");
-            string ResultTempName = base.Parameters.GetValue("ResultTempName");
+            string Url = Parameters.GetString("Url");
+            string Method = base.Parameters.GetString("Method");
+            string RqParameters = base.Parameters.GetString("Parameters");
+            string ResultTempName = base.Parameters.GetString("ResultTempName");
             using (HttpClient client = new HttpClient())
             {
                 var request = new HttpRequestMessage(Method == "Get" ? HttpMethod.Get : HttpMethod.Post, string.Format("{0}?{1}", Url, RqParameters));

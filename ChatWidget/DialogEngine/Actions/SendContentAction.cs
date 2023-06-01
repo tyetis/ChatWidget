@@ -18,7 +18,7 @@ namespace ChatWidget.DialogEngine.Actions
         public void Run()
         {
             var path = new DirectoryInfo(AppContext.BaseDirectory).Parent.Parent.Parent;
-            var file = File.ReadAllText($"{path}/Data/ContentElements/{Parameters.GetValue("id")}.json");
+            var file = File.ReadAllText($"{path}/Data/ContentElements/{Parameters.GetString("id")}.json");
             var content = JsonSerializer.Deserialize<ContentElementJsonModel>(file);
 
             var type = Type.GetType($"ChatWidget.Core.Message.{content.Type}");

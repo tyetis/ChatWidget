@@ -8,7 +8,7 @@ namespace ChatWidget.Core.Manager
     {
         string ActiveFlowId { get; set; }
         string ActiveNodeId { get; set; }
-        string Intent { get; set; }
+        string PreviousNodeId { get; set; }
         Dictionary<string, string> Slots { get; set; }
         void Set<T>(string key, T value);
         T Get<T>(string key);

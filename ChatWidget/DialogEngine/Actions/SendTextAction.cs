@@ -15,9 +15,11 @@ namespace ChatWidget.DialogEngine.Actions
 
         public void Run()
         {
+            var isArray = Parameters.GetProperty("text").ValueKind == JsonValueKind.Array;
+            var text = isArray ? Parameters.GetStringArray("text").OrderBy(n => new Random().Next()).FirstOrDefault() : Parameters.GetString("text");
             Context.Response(new TextMessage
             {
-                Text = ExpressionInterpreter.EvalAndReplace(Parameters.GetValue("text"), Context)
+                Text = ExpressionInterpreter.EvalAndReplace(text, Context)
             });
         }
     }

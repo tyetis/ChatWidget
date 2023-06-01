@@ -16,6 +16,7 @@ namespace ChatWidget.Core
         public MessageBot Bot { get; set; }
         public MessageUser User { get; set; }
         public ISessionManager Session { get; set; }
+        public NLUData NLU { get; set; }
         public Dictionary<string, string> Temp { get; set; }
     }
 }

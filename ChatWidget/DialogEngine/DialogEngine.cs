@@ -21,15 +21,19 @@ namespace ChatWidget.DialogEngine
 
         public void OnMessage(MessageContext context)
         {
+            if (context.Temp.ContainsKey("PassDialog")) return;
             ExecuteFlow(context);
         }
 
-        private void ExecuteFlow(MessageContext context, bool isEnter = false)
+        private void ExecuteFlow(MessageContext context)
         {
+            var isEnter = false;
             var flow = GetFlow(context.Session.ActiveFlowId, context.Bot.Id);
             var node = GetNode(context.Session.ActiveNodeId, flow);
-            if (node == null) { isEnter = true; node = flow.Nodes[0]; context.Session.ActiveNodeId = node.Id; }
-           
+            if (node == null) { node = flow.Nodes[0]; context.Session.ActiveNodeId = node.Id; }
+            if (context.Session.PreviousNodeId != context.Session.ActiveNodeId) isEnter = true;
+            context.Session.PreviousNodeId = context.Session.ActiveNodeId;
+
             if (isEnter)
                 node.OnEnterActions.ForEach(n => RunAction(n, context));
             else
@@ -58,7 +62,7 @@ namespace ChatWidget.DialogEngine
                 {
                     if(c.FlowId != null) context.Session.ActiveFlowId = c.FlowId;
                     if(c.NodeId != null) context.Session.ActiveNodeId = c.NodeId;
-                    ExecuteFlow(context, true);
+                    ExecuteFlow(context);
                     break;
                 }
             }

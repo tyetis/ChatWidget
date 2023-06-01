@@ -27,7 +27,7 @@ namespace ChatWidget.NLU.NodeNLU
             if (context.UserMessage is UserTextMessage msg)
             {
                 var result = Predict(msg.Text);
-                context.Session.Intent = result.intent;
+                context.NLU.Intent = result.intent;
                 foreach (var entity in result.entities)
                     context.Session.Slots[entity.entity] = entity.option ?? entity.sourceText;
             }

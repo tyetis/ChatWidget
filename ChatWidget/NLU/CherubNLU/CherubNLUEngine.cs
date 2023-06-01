@@ -26,7 +26,7 @@ namespace ChatWidget.NLU.CherubNLU
             if (context.UserMessage is UserTextMessage msg)
             {
                 var result = Predict(msg.Text, context.Bot.Id);
-                context.Session.Intent = result.Item1;
+                context.NLU.Intent = result.Item1;
             }
         }
 

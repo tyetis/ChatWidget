@@ -1,0 +1,23 @@
+﻿[
+  {
+    "Intent": "greet",
+    "Message": [ "heyy naberr", "seni görmek ne güzel", "görüşmeyeli nasılsın" ]
+  },
+  {
+    "Intent": "asked_how_are_you",
+    "Message": [ "iyiyim ve seninle konuşuyorum" ]
+  },
+  {
+    "Intent": "asked_go_cinema",
+    "Message": [ "{{ NLU.Entities[\"time\"] }} başka bir planım var" ]
+  },
+  {
+    "Intent": "goodbye",
+    "Message": [ "görüşürüz", "kendine iyi bak" ]
+  },
+  {
+    "Intent": "learn_language",
+    "Message": [ "elbette {{ NLU.Entities[\"language\"] }} öğretmek için buradayım" ],
+    "NodeId": "intent_learn_language"
+  }
+]

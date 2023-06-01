@@ -18,6 +18,7 @@ namespace ChatWidget.DialogEngine
                 .SetVariable("Session", context.Session)
                 .SetVariable("Slots", context.Session.Slots)
                 .SetVariable("UserMessage", context.UserMessage as UserTextMessage)
+                .SetVariable("NLU", context.NLU)
                 .SetVariable("Temp", context.Temp);
             try { return interpreter.Eval<T>(expression); } 
             catch(Exception ex) { return default(T); }
@@ -25,7 +26,7 @@ namespace ChatWidget.DialogEngine
 
         public static string EvalAndReplace(string expression, MessageContext context)
         {
-            Regex rgx = new Regex(@"{{([^}}]+)}}");
+            Regex rgx = new Regex(@"{{(.+)}}");
             var matches = rgx.Matches(expression);
             foreach (Match m in matches)
                 expression = expression.Replace(m.Value, Eval<string>(m.Groups[1].Value, context));

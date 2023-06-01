@@ -37,10 +37,10 @@ namespace ChatWidget.Core.Manager
             get => SessionDictionary.GetOrAdd("ActiveNodeId", string.Empty).ToString();
             set => SessionDictionary.AddOrUpdate("ActiveNodeId", value, (key, old) => value);
         }
-        public string Intent
+        public string PreviousNodeId
         {
-            get => SessionDictionary.GetOrAdd("Intent", string.Empty)?.ToString();
-            set => SessionDictionary.AddOrUpdate("Intent", value, (key, old) => value);
+            get => SessionDictionary.GetOrAdd("PreviousNodeId", string.Empty).ToString();
+            set => SessionDictionary.AddOrUpdate("PreviousNodeId", value, (key, old) => value);
         }
         public Dictionary<string, string> Slots
         {

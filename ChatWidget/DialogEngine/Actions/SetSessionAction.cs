@@ -15,7 +15,7 @@ namespace ChatWidget.DialogEngine.Actions
 
         public void Run()
         {
-            Context.Session.Set(Parameters.GetValue("key"), ExpressionInterpreter.EvalAndReplace(Parameters.GetValue("value"), Context));
+            Context.Session.Set(Parameters.GetString("key"), ExpressionInterpreter.EvalAndReplace(Parameters.GetString("value"), Context));
         }
     }
 }

@@ -3,22 +3,58 @@
   "StartNode": "Node1",
   "Nodes": [
     {
-      "Id": "Node1",
-      "Name": "selamver",
-      "WaitForAnswer": true,
+      "Id": "start",
       "OnEnterActions": [
         {
           "ActionName": "SendTextAction",
-          "Parameters": { "text": "Welcome! How can i help you?" }
+          "Parameters": { "text": "Selam, nasıl yardımcı olabilirim ?" }
         }
       ],
-      "OnReceiveActions": [
+      "OnReceiveActions": [],
+      "NextConditions": []
+    },
+    {
+      "Id": "intent_greet",
+      "OnEnterActions": [
         {
           "ActionName": "SendTextAction",
-          "Parameters": { "text": "Intent: {{ Session.Intent }} City: {{ Slots[\"location\"] }} Language: {{ Slots[\"language\"] }}" }
+          "Parameters": { "text": [ "Selam! nasıl yardımcı olabilirim?", "Merhaba, nasılsın?" ] }
         }
       ],
+      "OnReceiveActions": [],
+      "NextConditions": [
+        {
+          "Condition": "true",
+          "NodeId": "start"
+        }
+      ]
+    },
+    {
+      "Id": "intent_learn_language",
+      "OnEnterActions": [
+        {
+          "ActionName": "SendTextAction",
+          "Parameters": { "text": "Size {{ NLU.Entities[\"language\"] }} öğrenmeniz için yardımcı olacağım" }
+        }
+      ],
+      "OnReceiveActions": [],
       "NextConditions": []
+    },
+    {
+      "Id": "intent_goodbye",
+      "OnEnterActions": [
+        {
+          "ActionName": "SendTextAction",
+          "Parameters": { "text": [ "Tekrar görüşmek dileğiyle", "Bye Bye!" ] }
+        }
+      ],
+      "OnReceiveActions": [],
+      "NextConditions": [
+        {
+          "Condition": "true",
+          "NodeId": "start"
+        }
+      ]
     }
   ]
 }
